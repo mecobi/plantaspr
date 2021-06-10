@@ -8,8 +8,8 @@ from stqdm import stqdm
 import pandas as pd
 import plotly.express as px
 
-physical_devices = tf.config.list_physical_devices('GPU')
-tf.config.experimental.set_memory_growth(physical_devices[0], True)
+#physical_devices = tf.config.list_physical_devices('GPU')
+#tf.config.experimental.set_memory_growth(physical_devices[0], True)
 
 cols = 50
 rows = 50
