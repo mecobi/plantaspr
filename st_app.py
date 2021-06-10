@@ -148,66 +148,66 @@ if img_file_buffer is not None:
 
     tiles = np.array(tiles)[randIndex]
 
-my_bar.progress(100)
+    my_bar.progress(100)
 
-classPredict = [predictImage(tiles[inx]) for inx in stqdm(range(len(tiles)),st_container=col1)]
-
-
-with st.spinner("Construyendo gráfica..."):
-
-    myClass, myCount = np.unique(classPredict, return_counts=True)
-
-    frecuencia = {}
-
-    temp = np.array([myClass,myCount]).transpose()
+    classPredict = [predictImage(tiles[inx]) for inx in stqdm(range(len(tiles)),st_container=col1)]
 
 
-    for inx in range(len(temp)):
-         frecuencia[temp[inx][0]] = 100*(int(temp[inx][1]))/myCount.sum()
+    with st.spinner("Construyendo gráfica..."):
 
-    frecuencia_df = pd.DataFrame.from_dict(frecuencia,orient="index")
+        myClass, myCount = np.unique(classPredict, return_counts=True)
 
-    frecuencia_df.columns = ["porciento"]
+        frecuencia = {}
 
-## pedazo de código para añadir al dataframe de frecuencia
-## los casos con frecuencia cero de tal manera que la gráfica
-## de barras siempre tenga las mismas "clases" en el eje de x
-
-    diffSet = diff(list(frecuencia_df.index),list(class_names))
-
-    zeroFrec = pd.DataFrame(list([0]*len(diffSet)))
-
-    zeroFrec.index = diffSet
-
-    zeroFrec.columns = ["porciento"]
-
-    frecuencia_df = frecuencia_df.append(zeroFrec)
-
-    frecuencia_df = frecuencia_df.rename_axis('clase').reset_index()
-
-    frecuencia_df = frecuencia_df.sort_values('clase', ascending=True)
-
-## gráfico de barras en plotly
-
-    fig = px.bar(frecuencia_df,
-                 x='clase',
-                 y='porciento')
-
-    fig.update_layout(
-        autosize=True,
-        height=720,
-        margin=dict(l=20,r=20,t=30,b=10))
-
-    col2.write(fig)
-
-#col1.success("Completado...")
-
-#st.balloons()
+        temp = np.array([myClass,myCount]).transpose()
 
 
-#my_bar.progress(100)
+        for inx in range(len(temp)):
+             frecuencia[temp[inx][0]] = 100*(int(temp[inx][1]))/myCount.sum()
 
-#col2.bar_chart(frecuencia_df,height=500)
+        frecuencia_df = pd.DataFrame.from_dict(frecuencia,orient="index")
+
+        frecuencia_df.columns = ["porciento"]
+
+    ## pedazo de código para añadir al dataframe de frecuencia
+    ## los casos con frecuencia cero de tal manera que la gráfica
+    ## de barras siempre tenga las mismas "clases" en el eje de x
+
+        diffSet = diff(list(frecuencia_df.index),list(class_names))
+
+        zeroFrec = pd.DataFrame(list([0]*len(diffSet)))
+
+        zeroFrec.index = diffSet
+
+        zeroFrec.columns = ["porciento"]
+
+        frecuencia_df = frecuencia_df.append(zeroFrec)
+
+        frecuencia_df = frecuencia_df.rename_axis('clase').reset_index()
+
+        frecuencia_df = frecuencia_df.sort_values('clase', ascending=True)
+
+    ## gráfico de barras en plotly
+
+        fig = px.bar(frecuencia_df,
+                     x='clase',
+                     y='porciento')
+
+        fig.update_layout(
+            autosize=True,
+            height=720,
+            margin=dict(l=20,r=20,t=30,b=10))
+
+        col2.write(fig)
+
+    #col1.success("Completado...")
+
+    #st.balloons()
+
+
+    #my_bar.progress(100)
+
+    #col2.bar_chart(frecuencia_df,height=500)
 
 
 
